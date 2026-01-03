@@ -1,0 +1,184 @@
+/*
+Hashing:
+    Finding a Unique index for all elements to store them is called Hashing.
+    Hash value ==> Unique indexes of the elements to store them efficiently with time complexity O(1).
+    h(k) = k % 10 ==> Hash function
+    Hash table.
+
+What are Hash Functions:
+    1. Division Method: 
+        h(k) = k % m.
+            let m = 11 and the element is 1276
+            .:. 1276 % 11 = 0 
+            This implies that we will store 1276 at 0th index.
+    
+    2. Mid square method:
+        h(k) = k^2 & extract middle digits.
+            let k = 60
+            .:. 60^2 = 3600
+            This implies that we will store 60 at the 60th(middle value of 3600) index.
+            Let k = 13
+            .:. 13^2 = 169
+            This implies that we will store 13 at the 6th(middle value of 169) index.
+
+    3. Digit folding method:
+        Fold key into equal size parts. 
+            k1k2k3k4k5
+            (k1k2 + k3k4 + k5)  = Hash table
+            eg. K = 12345 
+            .:. hash value = 12 + 34 + 5 which is 51
+            hence we will store k(12345) at the 51th index.
+
+    4. Multiplication method:
+        h(k) = floor(M* (kA % 1))
+            where M is the size of the hash table
+            k is the key for which we are creating hash table
+            A is the sum {0 < A < 1}
+            eg. k = 12345
+            A = 0.01
+                k*A = 123.45
+                kA % 1 = (123.45 % 1) = 0.45
+                0.45 * 10(M) = 4.5 
+                floor(4.5) = 4
+
+
+Collisions:
+    When two elements have smae values
+    There are different ways to handle collisions:
+    1. Open hashing 
+    2. Closed hashing
+
+    1. Open hashing(Closed Addressing):
+        (Also known as Seperate Chaining)
+        If i have an elemnt 634 which have 4 as a hash vaue, But at that value there is already an element, then we will add this new element at the same index by using linked list.
+        eg. 234 -> 634
+        For finding the element (634) in the hash table, the time comlexity is O(l) , where l is the length of the linked list.
+
+    2. Closed Hashing(Open Addressing):
+        (i). Linear probing:
+            Stores Elements at the idx:
+                => (h(k) + i) % M where 0 <= i < M
+                (if already element is present at the present index, then i++)
+
+        (ii). Quadratic Probing:
+        Avoid the formation of clusters of the elements at the same index
+            Stores Elements at the idx:
+                => (h(k) + i^2) % M ,where 0 <= i < M
+                (if already element is present at the present index, then i++)
+
+        (iii).Double Hashing:(more optimized than quadratic probing)
+            Stores elements at the idx:
+                => (h1(k) + ih2(k)) % M ,where 0 <= i < M
+                (if already element is present at the present index, then i++)
+
+Load Factor:
+    if,
+        n = number of elements 
+        m = no. of buckets
+         
+          load factor = n/m;
+          Load Factor, "gives us the average entries in the bucket or at the particular index".
+
+          In general, the "Load Factor limit = 0.75";
+
+Rehashing:
+    If ,
+        LF > limit,
+    load factor exceeds or increases more than its limit, which is generally 0.75 ,then "Rehashing" takes place.
+    Rehashing : 
+        Increasing size of hash table and redistributing elements in it.
+        (It is a costly operation, but it is important to avoid collisions which leads in the increament of time complexity)
+
+
+MAP in C++ STL:
+    Maps: 
+        STL container which stores key-value pairs.
+        These elemensts are stored in ascending or descending order.
+        Maps cannot have duplicate keys.
+        Values can be updated but cannot stored as a duplicate keys.
+        Implemented through Binary Search Tree.
+    
+    Initialisation:
+        Header File Required:
+            #include <map>
+        Declaration:
+            map<key_data_type, value_data_type> map_name;
+             By default order is ascending.
+             For order to be in decreasing order:
+                map<key_data_type, value_data_type<key_data_type>>map_name;
+        
+        Initialisation;
+            map<key_data_type, value_data_type> map_name = {{key, value}, {key2,value2}, key3,value3}};
+
+        Insertion:
+            directory.insert(make_pair("anc",3212))
+            directory[key] = value;
+            time complexity = O(log(n))
+
+        Printing the elements:
+            for-each loop
+                for(auto element: map){ // here, e is the key, value pair.
+                    key = element.first;
+                    value = element.second;
+                }
+        
+        Iterators : Use to traverse our STL.
+        erase():
+            m.erase(iterators)
+            m.erase(key)
+            m.erase(start_itr, end_itr) : delete the key value pairs from start iterator to the end - 1 iterators
+            Time complexity: O(log(n)), except when we are deleting any range of iterators, At that instant the time complexity becomes o(n).
+
+        swap(): 
+            used to swap two maps of same data type.
+            m1.swap(m2);
+            swap(m1,m2);
+
+        clear():
+            used to clear the whole map.
+            m.clear();
+
+        Member Functions - Capicity
+        empty():
+            m.empty();=> return 1 if empty 
+        
+        size():
+            give the size of the map.
+            m.size();=> returns the number of elements present in the map.
+
+        max_size():
+            give the maximum size allocated for the map.
+            m.max_size();=> returns the maximum size allocated for the map.
+
+        find():
+            return iterator to the element.
+            m.find(key); =>if present , then give the iterator to the element,else it returns the map.end() iterator.
+            
+            map.end() => returns the iterator to the position after the last element in the map.
+
+            map.begin() => return the iterator the first postion element in the map.
+
+        coutn():
+            gives the number of occurences of the key.
+            m.coutn(key)  => always return 1 if the key is present in the map and returns 0 if not present in the map.
+
+        upper_bound():
+            returns an iterator the next greater element.
+            m.upper_bound(20)
+
+        lower_bound():
+            returns an iterator to element if present, else iterator to the next greater element,
+            m.lower_bound(20);
+
+        begin() and end():
+            map.end() => returns the iterator to the position after the last element in the map.
+
+            map.begin() => return the iterator the first postion element in the map.
+
+        rbegin() and rend():
+            map.rbegin() => return an iterator to the first element in reverse order.
+            map.rend() => return an iterator to position after the last element in the map in reverse order.
+            
+        NOTE: Maps are dynamic in nature.
+
+*/

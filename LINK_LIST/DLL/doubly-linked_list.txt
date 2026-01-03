@@ -1,0 +1,17 @@
+Baisc Structure of the doubly linked list:
+    [ptr to prev node][data][ptr to the next node]
+           head        head        tail
+
+Advantages of Doubly linked lists over singly linked lists
+    1. Traversal can be done in both ways.
+    2. insertion and deletion becomes more efficient.
+Disadvantages of doubly linked lists:
+    1. Extra space for previous pointer.
+    
+Implementation of a node in a doubly linked list:
+
+        NULL <--> [] <--> [] <--> [] <--> NULL
+                 head            tail
+
+Insetion at kth position in a doubly linked list:
+    Add a node at the start:
